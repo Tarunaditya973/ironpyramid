@@ -139,11 +139,15 @@ window.renderDashboard = async function () {
   ).join('') || '<p style="color:var(--muted)">No sets logged this week yet.</p>';
 
   const bigLifts = ['conventional-deadlift', 'barbell-back-squat', 'flat-barbell-bench-press'];
-  const prRows = bigLifts.map(exId => {
-    const pr = prHistory(sessions, exId);
+  const prRowsArr = [];
+  for (const exId of bigLifts) {
+    const prRecord = await store.getPR(exId);
+    const sessionPR = prHistory(sessions, exId);
+    const bestWeight = Math.max(prRecord?.bestWeight || 0, sessionPR.bestWeight);
     const label = (idx.get(exId)?.name) || exId;
-    return `<div class="pr"><span>${label}</span><span>best ${pr.bestWeight || 0}kg · e1RM ${pr.bestE1RM || 0}kg</span></div>`;
-  }).join('');
+    prRowsArr.push(`<div class="pr"><span>${label}</span><span>best ${bestWeight || 0}kg · e1RM ${sessionPR.bestE1RM || 0}kg</span></div>`);
+  }
+  const prRows = prRowsArr.join('');
 
   const trend = e1rmTrend(sessions, 'conventional-deadlift');
   const trendTxt = trend.length ? trend.map(t => `${t.dateISO}: ${t.e1rm}kg`).join(' → ') : 'Log a deadlift to start the trend.';
