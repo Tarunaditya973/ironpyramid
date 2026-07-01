@@ -2,6 +2,7 @@ import { createStore, idbBackend } from './src/db.js';
 import { prefillSets, suggestIncrease, parseScheme } from './src/progression.js';
 import { unionMuscles } from './src/muscles.js';
 import { highlightMuscles } from './src/musclemap.js';
+import { buildPlanIndex, volumeByMuscleForWeek, weekStartISO, e1rmTrend, prHistory } from './src/volume.js';
 
 const store = createStore(idbBackend());
 let plan = [];
@@ -11,6 +12,9 @@ let draft = {}; // exId -> [{weight,reps,done}]
 async function boot() {
   const seed = await (await fetch('data/plan.json')).json();
   await store.seedPlanIfEmpty(seed);
+  if (!(await store.getPR('conventional-deadlift'))) {
+    await store.upsertPR({ exId: 'conventional-deadlift', bestWeight: 156, dateISO: '2026-07-01' });
+  }
   plan = await store.getPlan();
   const sessions = await store.getSessions();
   buildDaySelect();
@@ -121,5 +125,33 @@ function showView(name) {
 function registerSW() {
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(() => {});
 }
+
+window.renderDashboard = async function () {
+  const sessions = await store.getSessions();
+  const idx = buildPlanIndex(plan);
+  const host = document.getElementById('view-dashboard');
+  const week = weekStartISO(new Date().toISOString().slice(0, 10));
+  const vol = volumeByMuscleForWeek(sessions, idx, week);
+  const maxVol = Math.max(1, ...Object.values(vol));
+
+  const volRows = Object.entries(vol).sort((a, b) => b[1] - a[1]).map(([m, v]) =>
+    `<div class="bar-row"><span>${m}</span><div class="bar" style="width:${(v / maxVol) * 100}%"></div><span>${Math.round(v)}</span></div>`
+  ).join('') || '<p style="color:var(--muted)">No sets logged this week yet.</p>';
+
+  const bigLifts = ['conventional-deadlift', 'barbell-back-squat', 'flat-barbell-bench-press'];
+  const prRows = bigLifts.map(exId => {
+    const pr = prHistory(sessions, exId);
+    const label = (idx.get(exId)?.name) || exId;
+    return `<div class="pr"><span>${label}</span><span>best ${pr.bestWeight || 0}kg · e1RM ${pr.bestE1RM || 0}kg</span></div>`;
+  }).join('');
+
+  const trend = e1rmTrend(sessions, 'conventional-deadlift');
+  const trendTxt = trend.length ? trend.map(t => `${t.dateISO}: ${t.e1rm}kg`).join(' → ') : 'Log a deadlift to start the trend.';
+
+  host.innerHTML = `
+    <div class="card"><h3>Weekly volume by muscle (week of ${week})</h3>${volRows}</div>
+    <div class="card"><h3>PRs (deadlift seeded at 156kg)</h3>${prRows}</div>
+    <div class="card"><h3>Deadlift e1RM trend</h3><p style="font-size:12px;color:var(--muted)">${trendTxt}</p></div>`;
+};
 
 boot();
