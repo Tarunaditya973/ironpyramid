@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" id="bodymap">
+  <style>
+    .region { fill:#3a3f4b; stroke:#20232a; stroke-width:1; transition:fill .2s; }
+    .region.secondary { fill:#f0a020; }
+    .region.primary { fill:#e0402f; }
+    .label { fill:#9aa0aa; font: 10px sans-serif; text-anchor:middle; }
+  </style>
+  <text x="100" y="14" class="label">FRONT</text>
+  <text x="300" y="14" class="label">BACK</text>
+  <!-- FRONT figure (left) -->
+  <g id="front">
+    <ellipse id="f-head" cx="100" cy="35" rx="14" ry="16" class="region"/>
+    <rect id="f-front-delts" x="70" y="55" width="60" height="14" rx="6" class="region"/>
+    <rect id="f-side-delts" x="62" y="58" width="12" height="14" rx="5" class="region"/>
+    <rect id="f-chest" x="76" y="72" width="48" height="26" rx="6" class="region"/>
+    <rect id="f-biceps" x="62" y="80" width="12" height="34" rx="5" class="region"/>
+    <rect id="f-abs" x="84" y="100" width="32" height="34" rx="5" class="region"/>
+    <rect id="f-obliques" x="76" y="102" width="8" height="30" rx="4" class="region"/>
+    <rect id="f-forearms" x="60" y="116" width="12" height="30" rx="5" class="region"/>
+    <rect id="f-quads" x="82" y="138" width="16" height="52" rx="6" class="region"/>
+    <rect id="f-quads-r" x="102" y="138" width="16" height="52" rx="6" class="region"/>
+    <rect id="f-calves" x="84" y="196" width="14" height="40" rx="5" class="region"/>
+    <rect id="f-cardio" x="90" y="72" width="20" height="10" rx="4" class="region" opacity="0"/>
+  </g>
+  <!-- BACK figure (right) -->
+  <g id="back">
+    <ellipse id="b-head" cx="300" cy="35" rx="14" ry="16" class="region"/>
+    <rect id="b-traps" x="284" y="52" width="32" height="16" rx="6" class="region"/>
+    <rect id="b-rear-delts" x="270" y="58" width="16" height="14" rx="5" class="region"/>
+    <rect id="b-mid-back" x="278" y="70" width="44" height="22" rx="6" class="region"/>
+    <rect id="b-lats" x="276" y="90" width="48" height="24" rx="8" class="region"/>
+    <rect id="b-triceps" x="262" y="80" width="12" height="34" rx="5" class="region"/>
+    <rect id="b-lower-back" x="286" y="114" width="28" height="18" rx="5" class="region"/>
+    <rect id="b-glutes" x="282" y="132" width="36" height="22" rx="8" class="region"/>
+    <rect id="b-hamstrings" x="282" y="156" width="16" height="42" rx="6" class="region"/>
+    <rect id="b-hamstrings-r" x="302" y="156" width="16" height="42" rx="6" class="region"/>
+  </g>
+</svg>
