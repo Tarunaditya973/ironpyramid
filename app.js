@@ -3,6 +3,7 @@ import { prefillSets, suggestIncrease, parseScheme } from './src/progression.js'
 import { unionMuscles } from './src/muscles.js';
 import { highlightMuscles } from './src/musclemap.js';
 import { buildPlanIndex, volumeByMuscleForWeek, weekStartISO, e1rmTrend, prHistory } from './src/volume.js';
+import { serializeBackup, parseBackup } from './src/csv.js';
 
 const store = createStore(idbBackend());
 let plan = [];
@@ -156,6 +157,36 @@ window.renderDashboard = async function () {
     <div class="card"><h3>Weekly volume by muscle (week of ${week})</h3>${volRows}</div>
     <div class="card"><h3>PRs (deadlift seeded at 156kg)</h3>${prRows}</div>
     <div class="card"><h3>Deadlift e1RM trend</h3><p style="font-size:12px;color:var(--muted)">${trendTxt}</p></div>`;
+};
+
+window.renderDataView = async function () {
+  const host = document.getElementById('view-data');
+  host.innerHTML = `
+    <div class="card"><h3>Backup</h3>
+      <button id="export-json" class="primary-btn">Export backup (JSON)</button>
+      <p style="color:var(--muted);font-size:12px">Your data lives only on this device. Export regularly.</p>
+      <input type="file" id="import-file" accept="application/json">
+    </div>`;
+  document.getElementById('export-json').onclick = async () => {
+    const state = {
+      sessions: await store.getSessions(),
+      prs: await store.getAllPRs(),
+      settings: await store.getAllSettings(),
+    };
+    const blob = new Blob([serializeBackup(state)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `ironpyramid-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+  };
+  document.getElementById('import-file').onchange = async (e) => {
+    const text = await e.target.files[0].text();
+    const state = parseBackup(text);
+    for (const s of state.sessions || []) await store.saveSession(s);
+    for (const p of state.prs || []) await store.upsertPR(p);
+    for (const st of state.settings || []) await store.setSetting(st.key, st.value);
+    alert('Backup imported.');
+  };
 };
 
 boot();
