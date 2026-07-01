@@ -1,4 +1,4 @@
-const CACHE = 'ironpyramid-v1';
+const CACHE = 'ironpyramid-v2';
 const ASSETS = [
   './', './index.html', './styles.css', './app.js',
   './src/db.js', './src/progression.js', './src/volume.js', './src/muscles.js', './src/csv.js', './src/musclemap.js',
