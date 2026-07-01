@@ -1,0 +1,125 @@
+import { createStore, idbBackend } from './src/db.js';
+import { prefillSets, suggestIncrease, parseScheme } from './src/progression.js';
+import { unionMuscles } from './src/muscles.js';
+import { highlightMuscles } from './src/musclemap.js';
+
+const store = createStore(idbBackend());
+let plan = [];
+let currentDay = null;
+let draft = {}; // exId -> [{weight,reps,done}]
+
+async function boot() {
+  const seed = await (await fetch('data/plan.json')).json();
+  await store.seedPlanIfEmpty(seed);
+  plan = await store.getPlan();
+  const sessions = await store.getSessions();
+  buildDaySelect();
+  currentDay = plan[0];
+  await renderDay(sessions);
+  wireNav();
+  registerSW();
+}
+
+function buildDaySelect() {
+  const sel = document.getElementById('day-select');
+  sel.innerHTML = plan.map(d => `<option value="${d.dayId}">${d.dayId.replace('day-', 'Day ')}</option>`).join('');
+  sel.onchange = async () => {
+    currentDay = plan.find(d => d.dayId === sel.value);
+    draft = {};
+    await renderDay(await store.getSessions());
+  };
+}
+
+async function renderDay(sessions) {
+  document.getElementById('day-focus').textContent = currentDay.focus;
+  // muscle map
+  const mapHost = document.getElementById('muscle-map');
+  if (!mapHost.dataset.loaded) {
+    mapHost.innerHTML = await (await fetch('assets/body.svg')).text();
+    mapHost.dataset.loaded = '1';
+  }
+  const union = unionMuscles(currentDay.exercises);
+  highlightMuscles(document.getElementById('bodymap'), union);
+
+  const list = document.getElementById('exercise-list');
+  list.innerHTML = '';
+  for (const ex of currentDay.exercises) {
+    const pf = prefillSets(ex.exId, sessions, ex.scheme);
+    draft[ex.exId] = draft[ex.exId] || pf.map(s => ({ ...s }));
+    const sug = suggestIncrease(ex.exId, sessions, ex);
+    list.appendChild(renderExercise(ex, draft[ex.exId], sug));
+  }
+}
+
+function renderExercise(ex, sets, sug) {
+  const el = document.createElement('div');
+  el.className = 'exercise';
+  const chips = [...ex.primary.map(m => `<span>${m}</span>`), ...ex.secondary.map(m => `<span>${m}</span>`)].join('');
+  el.innerHTML = `
+    <h3>${ex.name}<span class="badge">${ex.setType}</span></h3>
+    <div class="chips">${chips}</div>
+    ${sug.suggest ? `<div class="cue">${sug.message}</div>` : ''}
+    <div class="scheme" style="color:var(--muted);font-size:12px">${ex.scheme}</div>
+    <a class="demo" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ demo</a>
+    <div class="sets"></div>`;
+  const setsHost = el.querySelector('.sets');
+  el.addEventListener('pointerover', () =>
+    highlightMuscles(document.getElementById('bodymap'), { primary: ex.primary, secondary: ex.secondary }), { once: false });
+  sets.forEach((s, i) => setsHost.appendChild(renderSetRow(ex.exId, i, s)));
+  return el;
+}
+
+function renderSetRow(exId, i, s) {
+  const row = document.createElement('div');
+  row.className = 'setrow';
+  row.innerHTML = `
+    <span class="idx">${i + 1}</span>
+    <div class="stepper"><button data-d="-2.5">−</button><input type="number" class="w" value="${s.weight}"> kg <button data-d="2.5">+</button></div>
+    <div class="stepper"><button data-d="-1">−</button><input type="number" class="r" value="${s.reps}"> reps <button data-d="1">+</button></div>
+    <button class="done-toggle ${s.done ? 'done' : ''}">✓</button>`;
+  const w = row.querySelector('.w'), r = row.querySelector('.r');
+  const btns = row.querySelectorAll('.stepper button');
+  btns[0].onclick = () => { w.value = Math.max(0, (+w.value) - 2.5); s.weight = +w.value; };
+  btns[1].onclick = () => { w.value = (+w.value) + 2.5; s.weight = +w.value; };
+  btns[2].onclick = () => { r.value = Math.max(0, (+r.value) - 1); s.reps = +r.value; };
+  btns[3].onclick = () => { r.value = (+r.value) + 1; s.reps = +r.value; };
+  w.oninput = () => s.weight = +w.value;
+  r.oninput = () => s.reps = +r.value;
+  const done = row.querySelector('.done-toggle');
+  done.onclick = () => { s.done = !s.done; done.classList.toggle('done', s.done); };
+  return row;
+}
+
+document.getElementById('save-session').onclick = async () => {
+  const entries = currentDay.exercises
+    .map(ex => ({ exId: ex.exId, sets: (draft[ex.exId] || []).filter(s => s.done) }))
+    .filter(e => e.sets.length > 0);
+  if (entries.length === 0) { alert('No completed sets to save — tap the ✓ on the sets you finished.'); return; }
+  const dateISO = new Date().toISOString().slice(0, 10);
+  const session = { sessionId: `${dateISO}-${currentDay.dayId}-${Date.now()}`, dateISO, dayId: currentDay.dayId, entries };
+  await store.saveSession(session);
+  // update PRs (only from exercises with a saved entry, using that entry's completed sets)
+  for (const entry of entries) {
+    const best = Math.max(0, ...entry.sets.map(s => s.weight || 0));
+    const pr = await store.getPR(entry.exId);
+    if (!pr || best > (pr.bestWeight || 0)) await store.upsertPR({ exId: entry.exId, bestWeight: best, dateISO });
+  }
+  alert('Session saved!');
+  draft = {};
+  await renderDay(await store.getSessions());
+};
+
+function wireNav() {
+  document.querySelectorAll('nav button').forEach(b => b.onclick = () => showView(b.dataset.view));
+}
+function showView(name) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.view === name));
+  ['today', 'dashboard', 'data'].forEach(v => document.getElementById(`view-${v}`).hidden = v !== name);
+  if (name === 'dashboard') window.renderDashboard?.();
+  if (name === 'data') window.renderDataView?.();
+}
+function registerSW() {
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(() => {});
+}
+
+boot();
