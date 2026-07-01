@@ -26,13 +26,18 @@ async function boot() {
 }
 
 function buildDaySelect() {
-  const sel = document.getElementById('day-select');
-  sel.innerHTML = plan.map(d => `<option value="${d.dayId}">${d.dayId.replace('day-', 'Day ')}</option>`).join('');
-  sel.onchange = async () => {
-    currentDay = plan.find(d => d.dayId === sel.value);
-    draft = {};
-    await renderDay(await store.getSessions());
-  };
+  const host = document.getElementById('day-pills');
+  host.innerHTML = plan.map((d, i) =>
+    `<button class="day-pill${i === 0 ? ' active' : ''}" data-dayid="${d.dayId}">${d.dayId.replace('day-', 'Day ')}</button>`
+  ).join('');
+  host.querySelectorAll('.day-pill').forEach(btn => {
+    btn.onclick = async () => {
+      currentDay = plan.find(d => d.dayId === btn.dataset.dayid);
+      draft = {};
+      host.querySelectorAll('.day-pill').forEach(b => b.classList.toggle('active', b === btn));
+      await renderDay(await store.getSessions());
+    };
+  });
 }
 
 async function renderDay(sessions) {
@@ -48,28 +53,36 @@ async function renderDay(sessions) {
 
   const list = document.getElementById('exercise-list');
   list.innerHTML = '';
+  let n = 0;
   for (const ex of currentDay.exercises) {
     const pf = prefillSets(ex.exId, sessions, ex.scheme);
     draft[ex.exId] = draft[ex.exId] || pf.map(s => ({ ...s }));
     const sug = suggestIncrease(ex.exId, sessions, ex);
-    list.appendChild(renderExercise(ex, draft[ex.exId], sug));
+    list.appendChild(renderExercise(ex, draft[ex.exId], sug, ++n));
   }
 }
 
-function renderExercise(ex, sets, sug) {
+function renderExercise(ex, sets, sug, num) {
   const el = document.createElement('div');
   el.className = 'exercise';
-  const chips = [...ex.primary.map(m => `<span>${m}</span>`), ...ex.secondary.map(m => `<span>${m}</span>`)].join('');
+  const prim = ex.primary.map(m => `<span class="mtag prim">${m}</span>`).join('');
+  const sec = ex.secondary.map(m => `<span class="mtag">${m}</span>`).join('');
+  const demo = ex.demoUrl ? `<a class="demo" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ demo</a>` : '';
   el.innerHTML = `
-    <h3>${ex.name}<span class="badge">${ex.setType}</span></h3>
-    <div class="chips">${chips}</div>
-    ${sug.suggest ? `<div class="cue">${sug.message}</div>` : ''}
-    <div class="scheme" style="color:var(--muted);font-size:12px">${ex.scheme}</div>
-    <a class="demo" href="${ex.demoUrl}" target="_blank" rel="noopener">▶ demo</a>
-    <div class="sets"></div>`;
+    <div class="ex-top">
+      <span class="ex-num">${String(num).padStart(2, '0')}</span>
+      <h3 class="ex-name">${ex.name}</h3>
+      <span class="chip">${ex.setType}</span>
+    </div>
+    <div class="muscles">${prim}${sec}</div>
+    ${sug.suggest ? `<div class="cue"><span>▲</span><span>${sug.message}</span></div>` : ''}
+    <div class="scheme">${ex.scheme}${demo}</div>
+    <div class="sets">
+      <div class="set-head"><span>Set</span><span>Weight (kg)</span><span>Reps</span><span>Done</span></div>
+    </div>`;
   const setsHost = el.querySelector('.sets');
   el.addEventListener('pointerover', () =>
-    highlightMuscles(document.getElementById('bodymap'), { primary: ex.primary, secondary: ex.secondary }), { once: false });
+    highlightMuscles(document.getElementById('bodymap'), { primary: ex.primary, secondary: ex.secondary }));
   sets.forEach((s, i) => setsHost.appendChild(renderSetRow(ex.exId, i, s)));
   return el;
 }
@@ -78,16 +91,16 @@ function renderSetRow(exId, i, s) {
   const row = document.createElement('div');
   row.className = 'setrow';
   row.innerHTML = `
-    <span class="idx">${i + 1}</span>
-    <div class="stepper"><button data-d="-2.5">−</button><input type="number" class="w" value="${s.weight}"> kg <button data-d="2.5">+</button></div>
-    <div class="stepper"><button data-d="-1">−</button><input type="number" class="r" value="${s.reps}"> reps <button data-d="1">+</button></div>
-    <button class="done-toggle ${s.done ? 'done' : ''}">✓</button>`;
+    <span class="set-idx">${i + 1}</span>
+    <div class="stepper"><button class="dn">−</button><input type="number" inputmode="decimal" class="w" value="${s.weight}"><button class="up">+</button></div>
+    <div class="stepper"><button class="dn">−</button><input type="number" inputmode="numeric" class="r" value="${s.reps}"><button class="up">+</button></div>
+    <button class="done-toggle ${s.done ? 'done' : ''}" aria-label="Mark set done">✓</button>`;
   const w = row.querySelector('.w'), r = row.querySelector('.r');
-  const btns = row.querySelectorAll('.stepper button');
-  btns[0].onclick = () => { w.value = Math.max(0, (+w.value) - 2.5); s.weight = +w.value; };
-  btns[1].onclick = () => { w.value = (+w.value) + 2.5; s.weight = +w.value; };
-  btns[2].onclick = () => { r.value = Math.max(0, (+r.value) - 1); s.reps = +r.value; };
-  btns[3].onclick = () => { r.value = (+r.value) + 1; s.reps = +r.value; };
+  const wStep = row.children[1], rStep = row.children[2];
+  wStep.querySelector('.dn').onclick = () => { w.value = Math.max(0, (+w.value) - 2.5); s.weight = +w.value; };
+  wStep.querySelector('.up').onclick = () => { w.value = (+w.value) + 2.5; s.weight = +w.value; };
+  rStep.querySelector('.dn').onclick = () => { r.value = Math.max(0, (+r.value) - 1); s.reps = +r.value; };
+  rStep.querySelector('.up').onclick = () => { r.value = (+r.value) + 1; s.reps = +r.value; };
   w.oninput = () => s.weight = +w.value;
   r.oninput = () => s.reps = +r.value;
   const done = row.querySelector('.done-toggle');
@@ -136,8 +149,8 @@ window.renderDashboard = async function () {
   const maxVol = Math.max(1, ...Object.values(vol));
 
   const volRows = Object.entries(vol).sort((a, b) => b[1] - a[1]).map(([m, v]) =>
-    `<div class="bar-row"><span>${m}</span><div class="bar" style="width:${(v / maxVol) * 100}%"></div><span>${Math.round(v)}</span></div>`
-  ).join('') || '<p style="color:var(--muted)">No sets logged this week yet.</p>';
+    `<div class="bar-row"><span>${m}</span><div class="bar-track"><div class="bar" style="width:${(v / maxVol) * 100}%"></div></div><span>${Math.round(v)}</span></div>`
+  ).join('') || '<p class="muted">No sets logged this week yet.</p>';
 
   const bigLifts = ['conventional-deadlift', 'barbell-back-squat', 'flat-barbell-bench-press'];
   const prRowsArr = [];
@@ -146,7 +159,7 @@ window.renderDashboard = async function () {
     const sessionPR = prHistory(sessions, exId);
     const bestWeight = Math.max(prRecord?.bestWeight || 0, sessionPR.bestWeight);
     const label = (idx.get(exId)?.name) || exId;
-    prRowsArr.push(`<div class="pr"><span>${label}</span><span>best ${bestWeight || 0}kg · e1RM ${sessionPR.bestE1RM || 0}kg</span></div>`);
+    prRowsArr.push(`<div class="pr"><span class="lift">${label}</span><span class="stat">best <b>${bestWeight || 0}kg</b> · e1RM ${sessionPR.bestE1RM || 0}kg</span></div>`);
   }
   const prRows = prRowsArr.join('');
 
@@ -154,9 +167,9 @@ window.renderDashboard = async function () {
   const trendTxt = trend.length ? trend.map(t => `${t.dateISO}: ${t.e1rm}kg`).join(' → ') : 'Log a deadlift to start the trend.';
 
   host.innerHTML = `
-    <div class="card"><h3>Weekly volume by muscle (week of ${week})</h3>${volRows}</div>
-    <div class="card"><h3>PRs (deadlift seeded at 156kg)</h3>${prRows}</div>
-    <div class="card"><h3>Deadlift e1RM trend</h3><p style="font-size:12px;color:var(--muted)">${trendTxt}</p></div>`;
+    <div class="card"><h3>Weekly volume — week of ${week}</h3>${volRows}</div>
+    <div class="card"><h3>Personal records</h3>${prRows}</div>
+    <div class="card"><h3>Deadlift e1RM trend</h3><p class="muted">${trendTxt}</p></div>`;
 };
 
 window.renderDataView = async function () {
@@ -164,8 +177,8 @@ window.renderDataView = async function () {
   host.innerHTML = `
     <div class="card"><h3>Backup</h3>
       <button id="export-json" class="primary-btn">Export backup (JSON)</button>
-      <p style="color:var(--muted);font-size:12px">Your data lives only on this device. Export regularly.</p>
-      <input type="file" id="import-file" accept="application/json">
+      <p class="muted" style="margin-top:12px">Your data lives only on this device. Export regularly — this file is your only copy.</p>
+      <input type="file" id="import-file" accept="application/json" class="file-in">
     </div>`;
   document.getElementById('export-json').onclick = async () => {
     const state = {

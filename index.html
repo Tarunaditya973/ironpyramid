@@ -3,15 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#14161a">
+  <meta name="theme-color" content="#0D0E12">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap">
   <link rel="stylesheet" href="styles.css">
   <title>IronPyramid</title>
 </head>
 <body>
   <header>
-    <h1>IronPyramid</h1>
+    <h1 class="brand">IronPyramid</h1>
     <nav>
       <button data-view="today" class="active">Today</button>
       <button data-view="dashboard">Dashboard</button>
@@ -21,11 +24,20 @@
 
   <main>
     <section id="view-today">
-      <div class="daybar">
-        <label>Day: <select id="day-select"></select></label>
-        <span id="day-focus" class="focus"></span>
+      <div id="day-pills" class="day-pills"></div>
+      <div class="day-head">
+        <div class="eyebrow">Today's session</div>
+        <h2 id="day-focus" class="day-title"></h2>
       </div>
-      <div id="muscle-map"></div>
+
+      <div class="map-panel">
+        <div id="muscle-map"></div>
+        <div class="map-legend">
+          <span class="legend-item"><span class="dot primary"></span>Primary</span>
+          <span class="legend-item"><span class="dot secondary"></span>Secondary</span>
+        </div>
+      </div>
+
       <div id="exercise-list"></div>
       <button id="save-session" class="primary-btn">Save session</button>
     </section>
