@@ -12,6 +12,18 @@ test('seedPlanIfEmpty only seeds once', async () => {
   assert.equal(got[0].dayId, 'day-1');
 });
 
+test('getPlan sorts days numerically, not lexically', async () => {
+  const store = createStore(memoryBackend());
+  const plan = [
+    { dayId: 'day-2', focus: 'Back', exercises: [] },
+    { dayId: 'day-10', focus: 'Legs', exercises: [] },
+    { dayId: 'day-1', focus: 'Chest', exercises: [] },
+  ];
+  await store.seedPlanIfEmpty(plan);
+  const got = await store.getPlan();
+  assert.deepEqual(got.map(d => d.dayId), ['day-1', 'day-2', 'day-10']);
+});
+
 test('sessions persist and read back', async () => {
   const store = createStore(memoryBackend());
   await store.saveSession({ sessionId: 's1', dateISO: '2026-07-01', dayId: 'day-1', entries: [] });

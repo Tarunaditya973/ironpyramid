@@ -52,7 +52,8 @@ export function createStore(backend) {
     },
     async getPlan() {
       const days = await backend.getAll('plan');
-      return days.sort((a, b) => a.dayId < b.dayId ? -1 : 1);
+      const num = d => parseInt(String(d.dayId).replace(/\D/g, ''), 10) || 0;
+      return days.sort((a, b) => num(a) - num(b));
     },
     async saveSession(session) { await backend.put('sessions', session.sessionId, session); },
     async getSessions() { return await backend.getAll('sessions'); },

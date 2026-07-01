@@ -1,5 +1,5 @@
 import { createStore, idbBackend } from './src/db.js';
-import { prefillSets, suggestIncrease, parseScheme } from './src/progression.js';
+import { prefillSets, suggestIncrease } from './src/progression.js';
 import { unionMuscles } from './src/muscles.js';
 import { highlightMuscles } from './src/musclemap.js';
 import { buildPlanIndex, volumeByMuscleForWeek, weekStartISO, e1rmTrend, prHistory } from './src/volume.js';
@@ -180,12 +180,18 @@ window.renderDataView = async function () {
     a.click();
   };
   document.getElementById('import-file').onchange = async (e) => {
-    const text = await e.target.files[0].text();
-    const state = parseBackup(text);
-    for (const s of state.sessions || []) await store.saveSession(s);
-    for (const p of state.prs || []) await store.upsertPR(p);
-    for (const st of state.settings || []) await store.setSetting(st.key, st.value);
-    alert('Backup imported.');
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const state = parseBackup(text);
+      for (const s of state.sessions || []) await store.saveSession(s);
+      for (const p of state.prs || []) await store.upsertPR(p);
+      for (const st of state.settings || []) await store.setSetting(st.key, st.value);
+      alert('Backup imported.');
+    } catch (err) {
+      alert('Import failed: could not read that backup file. ' + (err && err.message ? err.message : ''));
+    }
   };
 };
 
