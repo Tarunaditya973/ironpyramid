@@ -12,6 +12,7 @@ export function parseScheme(setType, scheme) {
   const setsColon = scheme.match(/(\d+)\s*sets?\s*:\s*([\d/]+)/i); // "4 sets: 12/10/8/6"
   const nxr = scheme.match(/(\d+)\s*x\s*([\d-]+)/i);               // "3x15" or "4x12"
   const rounds = scheme.match(/(\d+)\s*rounds?/i);                 // "3 rounds: ..."
+  const setsGeneral = scheme.match(/(\d+)\s*sets?\b/i);            // "3 sets x 45 sec hold"
 
   if (setsColon) {
     sets = Number(setsColon[1]);
@@ -22,7 +23,11 @@ export function parseScheme(setType, scheme) {
     topReps = Number(nxr[2].split('-')[0]);
   } else if (rounds) {
     sets = Number(rounds[1]);
+  } else if (setsGeneral) {
+    sets = Number(setsGeneral[1]);
   }
+  // Timed/hold schemes have no rep target: never suggest adding weight to a plank.
+  if (isTimed) topReps = null;
   if (!sets) sets = 3;
   return { sets, topReps, isTimed, perLeg };
 }

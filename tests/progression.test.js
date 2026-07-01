@@ -25,6 +25,20 @@ test('parseScheme flags timed holds', () => {
   assert.equal(s.isTimed, true);
 });
 
+test('parseScheme parses set count for timed holds and keeps topReps null', () => {
+  const s = parseScheme('Normal', '3 sets x 45-60 sec hold');
+  assert.equal(s.sets, 3);
+  assert.equal(s.isTimed, true);
+  assert.equal(s.topReps, null);
+});
+
+test('parseScheme parses set count 4 for timed hold (not defaulted)', () => {
+  const s = parseScheme('Normal', '4 sets x 30 sec hold');
+  assert.equal(s.sets, 4);
+  assert.equal(s.isTimed, true);
+  assert.equal(s.topReps, null);
+});
+
 const sessions = [
   { sessionId: 's1', dateISO: '2026-06-24', dayId: 'day-1',
     entries: [{ exId: 'bench', sets: [{ weight: 60, reps: 12 }, { weight: 65, reps: 6 }] }] },
@@ -55,4 +69,11 @@ test('suggestIncrease does not fire when target missed', () => {
     entries: [{ exId: 'bench', sets: [{ weight: 70, reps: 4 }] }] }];
   const ex = { exId: 'bench', increment: 2.5, setType: 'Pyramid', scheme: '4 sets: 12/10/8/6 reps' };
   assert.equal(suggestIncrease('bench', miss, ex).suggest, false);
+});
+
+test('suggestIncrease does not fire for timed exercise even with high logged reps', () => {
+  const timedEx = { exId: 'plank', increment: 2.5, setType: 'Normal', scheme: '3 sets x 45-60 sec hold' };
+  const timedSessions = [{ sessionId: 'p1', dateISO: '2026-07-01', dayId: 'day-3',
+    entries: [{ exId: 'plank', sets: [{ weight: 0, reps: 90 }] }] }];
+  assert.equal(suggestIncrease('plank', timedSessions, timedEx).suggest, false);
 });
