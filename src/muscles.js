@@ -11,7 +11,10 @@ const RULES = [
   { kw: 'side delt', keys: ['side-delts'] },
   { kw: 'rear delt', keys: ['rear-delts'] },
   { kw: 'shoulder', keys: ['front-delts', 'side-delts'] },
-  { kw: 'delt', keys: ['front-delts'] },
+  // Bare "delt" defaults to front delts, but only when no qualified delt
+  // term (front/side/rear) already matched this token — mirrors the
+  // bareBack guard below.
+  { kw: 'delt', keys: ['front-delts'], bareDelt: true },
   { kw: 'tricep', keys: ['triceps'] },
   { kw: 'bicep', keys: ['biceps'] },
   { kw: 'forearm', keys: ['forearms'] },
@@ -25,7 +28,7 @@ const RULES = [
   { kw: 'chest', keys: ['chest'] },
   { kw: 'oblique', keys: ['obliques'] },
   { kw: 'core', keys: ['abs'] },
-  { kw: 'ab', keys: ['abs'] },
+  { kw: 'ab', keys: ['abs'], wordBoundary: true },
   { kw: 'glute', keys: ['glutes'] },
   { kw: 'quad', keys: ['quads'] },
   { kw: 'hamstring', keys: ['hamstrings'] },
@@ -53,9 +56,14 @@ export function normalizeMuscles(raw) {
   for (const token of tokenize(raw)) {
     const clean = token.replace(/[^a-z\s-]/g, ' ');
     const qualifiedBack = /(mid|lower|upper)\s*-?\s*back/.test(clean);
+    const qualifiedDelt = /(front|side|rear)\s*delt/.test(clean);
     for (const rule of RULES) {
       if (rule.bareBack && qualifiedBack) continue; // don't over-light
-      if (clean.includes(rule.kw)) rule.keys.forEach(k => found.add(k));
+      if (rule.bareDelt && qualifiedDelt) continue; // don't over-light
+      const matches = rule.wordBoundary
+        ? new RegExp(`\\b${rule.kw}`).test(clean)
+        : clean.includes(rule.kw);
+      if (matches) rule.keys.forEach(k => found.add(k));
     }
   }
   return [...found];

@@ -44,3 +44,15 @@ test('unionMuscles merges and dedupes', () => {
   assert.deepEqual(out.primary.sort(), ['chest']);
   assert.deepEqual(out.secondary.sort(), ['front-delts', 'triceps']);
 });
+
+test('rear delts do NOT also light front delts', () => {
+  assert.deepEqual(normalizeMuscles('Rear Delts'), ['rear-delts']);
+});
+
+test('side delts do NOT also light front delts', () => {
+  assert.deepEqual(normalizeMuscles('Side Delts'), ['side-delts']);
+});
+
+test('"ab" substring match does not spuriously match unrelated words', () => {
+  assert.ok(!normalizeMuscles('Cable').includes('abs'));
+});
