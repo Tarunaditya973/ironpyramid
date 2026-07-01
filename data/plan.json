@@ -1,0 +1,597 @@
+[
+  {
+    "dayId": "day-1",
+    "focus": "Chest & Triceps",
+    "exercises": [
+      {
+        "exId": "flat-barbell-bench-press",
+        "name": "Flat Barbell Bench Press",
+        "order": 1,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 12/10/8/6 reps (weight up each set)",
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "triceps",
+          "front-delts"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=flat+barbell+bench+press+tutorial",
+        "notes": "Use your current working weight as the W1 baseline"
+      },
+      {
+        "exId": "incline-db-press-push-ups-dips-tri-set",
+        "name": "Incline DB Press + Push-ups + Dips (Tri-set)",
+        "order": 2,
+        "setType": "Superset (Tri-set)",
+        "scheme": "3 rounds: 12 incline DB press / 12 push-ups / 12 dips",
+        "primary": [
+          "chest",
+          "triceps"
+        ],
+        "secondary": [
+          "front-delts"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=incline+dumbbell+press+tutorial",
+        "notes": "This is your existing tricep tri-set - log DB weight only"
+      },
+      {
+        "exId": "cable-pec-deck-flyes",
+        "name": "Cable / Pec-Deck Flyes",
+        "order": 3,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "chest"
+        ],
+        "secondary": [
+          "front-delts"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=cable+chest+fly+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "overhead-db-tricep-extension-close-grip-push-ups-superset",
+        "name": "Overhead DB Tricep Extension + Close-Grip Push-ups (Superset)",
+        "order": 4,
+        "setType": "Superset",
+        "scheme": "3x12 each",
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [
+          "chest",
+          "front-delts",
+          "side-delts"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=overhead+dumbbell+tricep+extension+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "cable-tricep-pushdown",
+        "name": "Cable Tricep Pushdown",
+        "order": 5,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=cable+tricep+pushdown+tutorial",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "dayId": "day-2",
+    "focus": "Back & Biceps (Deadlift Day)",
+    "exercises": [
+      {
+        "exId": "conventional-deadlift",
+        "name": "Conventional Deadlift",
+        "order": 1,
+        "setType": "Pyramid (based on 156kg PR)",
+        "scheme": "5 sets: 5/5/3/2/1 reps at approx 60/70/80/85/90% of PR",
+        "primary": [
+          "lats",
+          "mid-back",
+          "lower-back",
+          "hamstrings",
+          "glutes"
+        ],
+        "secondary": [
+          "traps",
+          "forearms"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=conventional+deadlift+tutorial",
+        "notes": "PR = 156kg - recalculate percentages every 4-6 weeks"
+      },
+      {
+        "exId": "pull-ups-weighted-if-possible-or-lat-pulldown",
+        "name": "Pull-ups (weighted if possible) or Lat Pulldown",
+        "order": 2,
+        "setType": "Normal",
+        "scheme": "4x10",
+        "primary": [
+          "lats"
+        ],
+        "secondary": [
+          "biceps",
+          "forearms"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=pull+up+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "bent-over-barbell-row",
+        "name": "Bent-Over Barbell Row",
+        "order": 3,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 12/10/8/6 reps",
+        "primary": [
+          "mid-back",
+          "lats"
+        ],
+        "secondary": [
+          "biceps",
+          "rear-delts"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=bent+over+barbell+row+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "seated-cable-row-face-pulls-superset",
+        "name": "Seated Cable Row + Face Pulls (Superset)",
+        "order": 4,
+        "setType": "Superset",
+        "scheme": "3x12 each",
+        "primary": [
+          "mid-back",
+          "rear-delts"
+        ],
+        "secondary": [
+          "mid-back"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=seated+cable+row+and+face+pull+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "barbell-curl-hammer-curl-superset",
+        "name": "Barbell Curl + Hammer Curl (Superset)",
+        "order": 5,
+        "setType": "Superset",
+        "scheme": "3x12 each",
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=barbell+curl+and+hammer+curl+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "concentration-curl",
+        "name": "Concentration Curl",
+        "order": 6,
+        "setType": "Normal",
+        "scheme": "3x12",
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=concentration+curl+tutorial",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "dayId": "day-3",
+    "focus": "Shoulders & Abs",
+    "exercises": [
+      {
+        "exId": "seated-db-or-barbell-overhead-press",
+        "name": "Seated DB or Barbell Overhead Press",
+        "order": 1,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 12/10/8/6 reps",
+        "primary": [
+          "front-delts",
+          "side-delts"
+        ],
+        "secondary": [
+          "triceps"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=seated+overhead+press+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "lateral-raise-front-raise-superset",
+        "name": "Lateral Raise + Front Raise (Superset)",
+        "order": 2,
+        "setType": "Superset",
+        "scheme": "3x15 each",
+        "primary": [
+          "side-delts",
+          "front-delts"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=lateral+raise+and+front+raise+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "rear-delt-fly",
+        "name": "Rear Delt Fly",
+        "order": 3,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "rear-delts"
+        ],
+        "secondary": [
+          "mid-back"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=rear+delt+fly+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "barbell-shrugs",
+        "name": "Barbell Shrugs",
+        "order": 4,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "traps"
+        ],
+        "secondary": [
+          "forearms"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=barbell+shrug+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "hanging-leg-raise-cable-crunch-superset",
+        "name": "Hanging Leg Raise + Cable Crunch (Superset)",
+        "order": 5,
+        "setType": "Superset",
+        "scheme": "3x15-20 each",
+        "primary": [
+          "abs"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=hanging+leg+raise+and+cable+crunch+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "plank",
+        "name": "Plank",
+        "order": 6,
+        "setType": "Normal",
+        "scheme": "3 sets x 45-60 sec hold",
+        "primary": [
+          "abs",
+          "obliques"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=plank+exercise+tutorial",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "dayId": "day-4",
+    "focus": "Legs - Quads",
+    "exercises": [
+      {
+        "exId": "barbell-back-squat",
+        "name": "Barbell Back Squat",
+        "order": 1,
+        "setType": "Pyramid",
+        "scheme": "5 sets: 12/10/8/6/4 reps",
+        "primary": [
+          "quads"
+        ],
+        "secondary": [
+          "glutes",
+          "hamstrings"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=barbell+back+squat+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "leg-press",
+        "name": "Leg Press",
+        "order": 2,
+        "setType": "Normal",
+        "scheme": "4x12",
+        "primary": [
+          "quads"
+        ],
+        "secondary": [
+          "glutes"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=leg+press+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "walking-lunges-bodyweight-jump-squats-superset",
+        "name": "Walking Lunges + Bodyweight Jump Squats (Superset)",
+        "order": 3,
+        "setType": "Superset",
+        "scheme": "3x12 per leg",
+        "primary": [
+          "quads",
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=walking+lunges+and+jump+squats+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "leg-extension",
+        "name": "Leg Extension",
+        "order": 4,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "quads"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=leg+extension+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "standing-or-seated-calf-raise",
+        "name": "Standing or Seated Calf Raise",
+        "order": 5,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 20/15/12/10 reps",
+        "primary": [
+          "calves"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=calf+raise+tutorial",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "dayId": "day-5",
+    "focus": "Arms & Abs",
+    "exercises": [
+      {
+        "exId": "close-grip-bench-press",
+        "name": "Close-Grip Bench Press",
+        "order": 1,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 12/10/8/6 reps",
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [
+          "chest"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=close+grip+bench+press+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "barbell-curl",
+        "name": "Barbell Curl",
+        "order": 2,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 12/10/8/6 reps",
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [
+          "forearms"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=standing+barbell+curl+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "skull-crushers-diamond-push-ups-superset",
+        "name": "Skull Crushers + Diamond Push-ups (Superset)",
+        "order": 3,
+        "setType": "Superset",
+        "scheme": "3x12 each",
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [
+          "chest"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=skull+crushers+and+diamond+push+ups+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "preacher-curl-cable-curl-superset",
+        "name": "Preacher Curl + Cable Curl (Superset)",
+        "order": 4,
+        "setType": "Superset",
+        "scheme": "3x12 each",
+        "primary": [
+          "biceps"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=preacher+curl+and+cable+curl+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "rope-tricep-pushdown",
+        "name": "Rope Tricep Pushdown",
+        "order": 5,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "triceps"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=rope+tricep+pushdown+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "cable-crunch",
+        "name": "Cable Crunch",
+        "order": 6,
+        "setType": "Normal",
+        "scheme": "3x15-20",
+        "primary": [
+          "abs"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=cable+crunch+tutorial",
+        "notes": ""
+      }
+    ]
+  },
+  {
+    "dayId": "day-6",
+    "focus": "Legs - Hamstrings/Glutes + Conditioning",
+    "exercises": [
+      {
+        "exId": "romanian-deadlift",
+        "name": "Romanian Deadlift",
+        "order": 1,
+        "setType": "Pyramid",
+        "scheme": "4 sets: 12/10/8/6 reps",
+        "primary": [
+          "hamstrings",
+          "glutes"
+        ],
+        "secondary": [
+          "lower-back"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=romanian+deadlift+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "lying-or-seated-leg-curl",
+        "name": "Lying or Seated Leg Curl",
+        "order": 2,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "hamstrings"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=leg+curl+machine+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "barbell-hip-thrust",
+        "name": "Barbell Hip Thrust",
+        "order": 3,
+        "setType": "Normal",
+        "scheme": "4x12",
+        "primary": [
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings"
+        ],
+        "increment": 2.5,
+        "demoUrl": "https://www.youtube.com/results?search_query=barbell+hip+thrust+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "back-extension-good-morning-style",
+        "name": "Back Extension (Good Morning style)",
+        "order": 4,
+        "setType": "Normal",
+        "scheme": "3x15",
+        "primary": [
+          "lower-back",
+          "glutes"
+        ],
+        "secondary": [
+          "hamstrings"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=back+extension+good+morning+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "standing-calf-raise",
+        "name": "Standing Calf Raise",
+        "order": 5,
+        "setType": "Normal",
+        "scheme": "3x20",
+        "primary": [
+          "calves"
+        ],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=standing+calf+raise+tutorial",
+        "notes": ""
+      },
+      {
+        "exId": "incline-treadmill-walk",
+        "name": "Incline Treadmill Walk",
+        "order": 6,
+        "setType": "Conditioning",
+        "scheme": "15-20 min steady pace at 12-15% incline",
+        "primary": [
+          "cardio",
+          "glutes"
+        ],
+        "secondary": [
+          "calves"
+        ],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=incline+treadmill+walking+workout",
+        "notes": "Great for recovery + extra calorie burn without hurting recovery"
+      }
+    ]
+  },
+  {
+    "dayId": "day-7",
+    "focus": "Rest / Active Recovery",
+    "exercises": [
+      {
+        "exId": "light-stretching-foam-rolling-20-30-min-walk",
+        "name": "Light Stretching / Foam Rolling / 20-30 min Walk",
+        "order": 1,
+        "setType": "Recovery",
+        "scheme": "As needed",
+        "primary": [],
+        "secondary": [],
+        "increment": 1,
+        "demoUrl": "https://www.youtube.com/results?search_query=full+body+stretching+recovery+routine",
+        "notes": "Muscle growth happens during recovery not during the workout"
+      }
+    ]
+  }
+]
