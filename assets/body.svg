@@ -12,10 +12,14 @@
       <stop offset="0" stop-color="#FFC957"/>
       <stop offset="1" stop-color="#E89A26"/>
     </linearGradient>
-    <radialGradient id="vig" cx="0.5" cy="0.42" r="0.6">
-      <stop offset="0" stop-color="#20242E"/>
-      <stop offset="1" stop-color="#20242E" stop-opacity="0"/>
+    <radialGradient id="vig" cx="0.5" cy="0.4" r="0.62">
+      <stop offset="0" stop-color="#242A38" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#242A38" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="gRest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#454E60"/>
+      <stop offset="1" stop-color="#333B49"/>
+    </linearGradient>
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feDropShadow dx="0" dy="0" stdDeviation="3.4" flood-color="#FF3B2F" flood-opacity="0.95"/>
     </filter>
@@ -27,12 +31,12 @@
     <ellipse id="s-foot" cx="120" cy="424" rx="12" ry="7"/>
 
     <!-- FRONT muscle shapes (right side / centered) -->
-    <path id="s-pec" d="M110,100 C126,98 145,102 149,116 C150,128 141,137 125,137 C117,137 111,133 110,124 Z"/>
-    <path id="s-fdelt" d="M148,102 C162,100 175,109 176,126 C169,118 158,116 150,120 C147,113 146,106 148,102 Z"/>
-    <path id="s-sdelt" d="M176,118 C184,124 185,142 179,153 C175,144 172,132 172,123 C173,119 174,118 176,118 Z"/>
+    <path id="s-pec" d="M110,110 C125,107 143,110 150,122 C153,133 149,147 137,151 C127,154 116,151 110,143 C109,132 109,121 110,110 Z"/>
+    <path id="s-fdelt" d="M150,104 C165,102 177,110 179,125 C180,135 173,141 162,141 C152,141 147,133 147,120 C147,112 148,107 150,104 Z"/>
+    <path id="s-sdelt" d="M177,122 C185,125 187,137 183,148 C180,155 173,154 170,147 C168,139 169,129 173,124 C174,122 176,122 177,122 Z"/>
     <path id="s-biceps" d="M158,130 C170,138 174,160 169,188 C166,198 159,198 155,188 C153,166 153,146 158,130 Z"/>
     <path id="s-fforearm" d="M164,204 C173,214 172,242 164,274 C160,286 154,284 152,272 C151,244 155,220 164,204 Z"/>
-    <path id="s-abs" d="M110,142 C119,142 127,146 128,158 C129,182 127,206 121,216 C118,220 102,220 99,216 C93,206 91,182 92,158 C93,146 101,142 110,142 Z"/>
+    <path id="s-abs" d="M110,152 C117,152 123,156 124,166 C125,186 123,206 118,214 C115,218 105,218 102,214 C97,206 95,186 96,166 C97,156 103,152 110,152 Z"/>
     <path id="s-oblique" d="M128,150 C138,152 143,172 141,196 C140,206 134,210 129,206 C127,188 127,168 128,150 Z"/>
     <path id="s-quad" d="M112,254 C132,252 149,258 149,276 C150,302 144,326 137,340 C131,348 121,346 119,336 C116,308 114,282 112,254 Z"/>
     <path id="s-shin" d="M124,346 C134,346 140,356 139,374 C138,392 133,402 128,404 C123,406 119,400 119,390 C119,370 120,358 124,346 Z"/>
@@ -52,9 +56,9 @@
   <style>
     .fig-label { fill:#7C8496; font:600 13px "Oswald","Arial Narrow",sans-serif; letter-spacing:2px; text-anchor:middle; }
     .silhouette { fill:url(#gBody); }
-    .region { fill:#39414F; transition:fill .3s ease; }
-    .region.secondary { fill:url(#gAmber); }
-    .region.primary { fill:url(#gEmber); filter:url(#glow); animation:musclePulse 1.9s ease-in-out infinite; }
+    .region { fill:url(#gRest); stroke:#11141B; stroke-width:.8; transition:fill .3s ease; }
+    .region.secondary { fill:url(#gAmber); stroke:none; }
+    .region.primary { fill:url(#gEmber); stroke:none; filter:url(#glow); animation:musclePulse 1.9s ease-in-out infinite; }
     @keyframes musclePulse { 0%,100%{opacity:.9} 50%{opacity:1} }
     @media (prefers-reduced-motion: reduce){ .region.primary{ animation:none } }
   </style>
