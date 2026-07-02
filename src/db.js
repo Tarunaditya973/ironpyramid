@@ -50,6 +50,9 @@ export function createStore(backend) {
       for (const day of plan) await backend.put('plan', day.dayId, day);
       return true;
     },
+    async reseedPlan(plan) {
+      for (const day of plan) await backend.put('plan', day.dayId, day);
+    },
     async getPlan() {
       const days = await backend.getAll('plan');
       const num = d => parseInt(String(d.dayId).replace(/\D/g, ''), 10) || 0;

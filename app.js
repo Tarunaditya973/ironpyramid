@@ -10,9 +10,16 @@ let plan = [];
 let currentDay = null;
 let draft = {}; // exId -> [{weight,reps,done}]
 
+const PLAN_VERSION = '2'; // bump whenever data/plan.json changes so the stored plan refreshes
+
 async function boot() {
   const seed = await (await fetch('data/plan.json')).json();
-  await store.seedPlanIfEmpty(seed);
+  if ((await store.getSetting('planVersion')) !== PLAN_VERSION) {
+    await store.reseedPlan(seed);            // refresh plan; leaves sessions & PRs intact
+    await store.setSetting('planVersion', PLAN_VERSION);
+  } else {
+    await store.seedPlanIfEmpty(seed);
+  }
   if (!(await store.getPR('conventional-deadlift'))) {
     await store.upsertPR({ exId: 'conventional-deadlift', bestWeight: 156, dateISO: '2026-07-01' });
   }

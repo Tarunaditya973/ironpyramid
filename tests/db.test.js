@@ -24,6 +24,15 @@ test('getPlan sorts days numerically, not lexically', async () => {
   assert.deepEqual(got.map(d => d.dayId), ['day-1', 'day-2', 'day-10']);
 });
 
+test('reseedPlan overwrites existing plan days', async () => {
+  const store = createStore(memoryBackend());
+  await store.seedPlanIfEmpty([{ dayId: 'day-1', focus: 'Old', exercises: [] }]);
+  await store.reseedPlan([{ dayId: 'day-1', focus: 'New', exercises: [{ exId: 'x' }] }]);
+  const p = await store.getPlan();
+  assert.equal(p[0].focus, 'New');
+  assert.equal(p[0].exercises.length, 1);
+});
+
 test('sessions persist and read back', async () => {
   const store = createStore(memoryBackend());
   await store.saveSession({ sessionId: 's1', dateISO: '2026-07-01', dayId: 'day-1', entries: [] });
