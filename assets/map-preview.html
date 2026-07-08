@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>Map preview</title>
+<body style="background:#14161a">
+<div id="host"></div>
+<script type="module">
+  import { highlightMuscles } from '../src/musclemap.js';
+  const svg = await (await fetch('./body.svg')).text();
+  document.getElementById('host').innerHTML = svg;
+  const root = document.getElementById('bodymap');
+  // Bench press: primary chest, secondary triceps + front delts
+  highlightMuscles(root, { primary: ['chest'], secondary: ['triceps', 'front-delts'] });
+</script>
+</body>

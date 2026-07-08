@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 452" id="bodymap" role="img" aria-label="Front and back muscle map">
+  <defs>
+    <linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B303C"/>
+      <stop offset="1" stop-color="#1A1E27"/>
+    </linearGradient>
+    <linearGradient id="gEmber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF6A3C"/>
+      <stop offset="1" stop-color="#E4231A"/>
+    </linearGradient>
+    <linearGradient id="gAmber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFC957"/>
+      <stop offset="1" stop-color="#E89A26"/>
+    </linearGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.4" r="0.62">
+      <stop offset="0" stop-color="#242A38" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#242A38" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gRest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#454E60"/>
+      <stop offset="1" stop-color="#333B49"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.4" flood-color="#FF3B2F" flood-opacity="0.95"/>
+    </filter>
+
+    <!-- silhouette parts (local coords, figure centered on x=110) -->
+    <path id="s-body" d="M96,74 C94,68 98,64 110,64 C122,64 126,68 124,74 C138,80 150,86 156,100 C160,124 158,156 150,186 C145,204 141,214 138,222 C148,232 152,244 151,262 C150,290 147,318 144,342 C142,364 137,388 131,406 C129,413 131,420 124,420 L117,420 C115,414 116,410 116,404 C115,382 114,360 114,340 C113,312 112,286 111,262 L110,250 L109,262 C108,286 107,312 106,340 C106,360 105,382 104,404 C104,410 105,414 103,420 L96,420 C89,420 91,413 89,406 C83,388 78,364 76,342 C73,318 70,290 69,262 C68,244 72,232 82,222 C79,214 75,204 70,186 C62,156 60,124 64,100 C70,86 82,80 96,74 Z"/>
+    <ellipse id="s-head" cx="110" cy="42" rx="20" ry="24"/>
+    <path id="s-arm" d="M154,100 C172,106 180,128 178,158 C176,188 171,220 164,252 C160,272 156,290 152,300 C150,306 143,306 142,299 C144,278 148,256 150,232 C152,204 152,172 150,144 C149,126 148,112 154,100 Z"/>
+    <ellipse id="s-foot" cx="120" cy="424" rx="12" ry="7"/>
+
+    <!-- FRONT muscle shapes (right side / centered) -->
+    <path id="s-pec" d="M110,110 C125,107 143,110 150,122 C153,133 149,147 137,151 C127,154 116,151 110,143 C109,132 109,121 110,110 Z"/>
+    <path id="s-fdelt" d="M150,104 C165,102 177,110 179,125 C180,135 173,141 162,141 C152,141 147,133 147,120 C147,112 148,107 150,104 Z"/>
+    <path id="s-sdelt" d="M177,122 C185,125 187,137 183,148 C180,155 173,154 170,147 C168,139 169,129 173,124 C174,122 176,122 177,122 Z"/>
+    <path id="s-biceps" d="M158,130 C170,138 174,160 169,188 C166,198 159,198 155,188 C153,166 153,146 158,130 Z"/>
+    <path id="s-fforearm" d="M164,204 C173,214 172,242 164,274 C160,286 154,284 152,272 C151,244 155,220 164,204 Z"/>
+    <path id="s-abs" d="M110,152 C117,152 123,156 124,166 C125,186 123,206 118,214 C115,218 105,218 102,214 C97,206 95,186 96,166 C97,156 103,152 110,152 Z"/>
+    <path id="s-oblique" d="M128,150 C138,152 143,172 141,196 C140,206 134,210 129,206 C127,188 127,168 128,150 Z"/>
+    <path id="s-quad" d="M112,254 C132,252 149,258 149,276 C150,302 144,326 137,340 C131,348 121,346 119,336 C116,308 114,282 112,254 Z"/>
+    <path id="s-shin" d="M124,346 C134,346 140,356 139,374 C138,392 133,402 128,404 C123,406 119,400 119,390 C119,370 120,358 124,346 Z"/>
+
+    <!-- BACK muscle shapes (right side / centered) -->
+    <path id="s-trap" d="M110,86 C126,88 147,98 153,116 C155,124 150,129 141,129 C124,128 96,128 79,129 C70,129 65,124 67,116 C73,98 94,88 110,86 Z"/>
+    <path id="s-rdelt" d="M150,104 C164,102 176,110 180,126 C172,118 160,116 152,120 C149,114 148,108 150,104 Z"/>
+    <path id="s-lat" d="M132,128 C151,132 162,156 157,184 C153,204 141,213 128,208 C125,182 127,152 132,128 Z"/>
+    <path id="s-midback" d="M110,124 C126,124 133,132 133,148 C132,162 124,169 110,169 C96,169 88,162 87,148 C87,132 94,124 110,124 Z"/>
+    <path id="s-triceps" d="M158,132 C170,140 173,162 168,190 C165,200 158,200 154,190 C152,168 152,148 158,132 Z"/>
+    <path id="s-lowerback" d="M110,196 C120,196 128,203 129,215 C130,228 124,238 110,239 C96,238 90,228 91,215 C92,203 100,196 110,196 Z"/>
+    <path id="s-glute" d="M110,236 C128,234 148,240 149,258 C150,273 141,283 124,283 C116,283 111,277 110,266 Z"/>
+    <path id="s-hamstring" d="M112,284 C132,282 149,288 149,304 C150,328 144,346 137,342 C131,348 121,346 119,336 C116,312 114,300 112,284 Z"/>
+    <path id="s-calf" d="M124,344 C135,344 142,356 141,378 C140,396 134,406 128,406 C123,408 119,402 119,392 C119,372 120,356 124,344 Z"/>
+  </defs>
+
+  <style>
+    .fig-label { fill:#7C8496; font:600 13px "Oswald","Arial Narrow",sans-serif; letter-spacing:2px; text-anchor:middle; }
+    .silhouette { fill:url(#gBody); }
+    .region { fill:url(#gRest); stroke:#11141B; stroke-width:.8; transition:fill .3s ease; }
+    .region.secondary { fill:url(#gAmber); stroke:none; }
+    .region.primary { fill:url(#gEmber); stroke:none; filter:url(#glow); animation:musclePulse 1.9s ease-in-out infinite; }
+    @keyframes musclePulse { 0%,100%{opacity:.9} 50%{opacity:1} }
+    @media (prefers-reduced-motion: reduce){ .region.primary{ animation:none } }
+  </style>
+
+  <text class="fig-label" x="130" y="18">FRONT</text>
+  <text class="fig-label" x="350" y="18">BACK</text>
+
+  <g id="front" transform="translate(20,16)">
+    <ellipse cx="110" cy="230" rx="150" ry="215" fill="url(#vig)"/>
+    <use href="#s-arm" class="silhouette"/>
+    <use href="#s-arm" class="silhouette" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-body" class="silhouette"/>
+    <use href="#s-head" class="silhouette"/>
+    <use href="#s-foot" class="silhouette"/>
+    <use href="#s-foot" class="silhouette" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-pec" id="f-chest-r" class="region"/>
+    <use href="#s-pec" id="f-chest" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-fdelt" id="f-front-delts-r" class="region"/>
+    <use href="#s-fdelt" id="f-front-delts" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-sdelt" id="f-side-delts-r" class="region"/>
+    <use href="#s-sdelt" id="f-side-delts" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-biceps" id="f-biceps-r" class="region"/>
+    <use href="#s-biceps" id="f-biceps" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-fforearm" id="f-forearms-r" class="region"/>
+    <use href="#s-fforearm" id="f-forearms" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-abs" id="f-abs" class="region"/>
+    <use href="#s-oblique" id="f-obliques-r" class="region"/>
+    <use href="#s-oblique" id="f-obliques" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-quad" id="f-quads-r" class="region"/>
+    <use href="#s-quad" id="f-quads" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-shin" id="f-calves-r" class="region"/>
+    <use href="#s-shin" id="f-calves" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+  </g>
+
+  <g id="back" transform="translate(240,16)">
+    <ellipse cx="110" cy="230" rx="150" ry="215" fill="url(#vig)"/>
+    <use href="#s-arm" class="silhouette"/>
+    <use href="#s-arm" class="silhouette" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-body" class="silhouette"/>
+    <use href="#s-head" class="silhouette"/>
+    <use href="#s-foot" class="silhouette"/>
+    <use href="#s-foot" class="silhouette" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-trap" id="b-traps" class="region"/>
+    <use href="#s-rdelt" id="b-rear-delts-r" class="region"/>
+    <use href="#s-rdelt" id="b-rear-delts" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-lat" id="b-lats-r" class="region"/>
+    <use href="#s-lat" id="b-lats" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-midback" id="b-mid-back" class="region"/>
+    <use href="#s-triceps" id="b-triceps-r" class="region"/>
+    <use href="#s-triceps" id="b-triceps" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-fforearm" id="b-forearms-r" class="region"/>
+    <use href="#s-fforearm" id="b-forearms" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-lowerback" id="b-lower-back" class="region"/>
+    <use href="#s-glute" id="b-glutes-r" class="region"/>
+    <use href="#s-glute" id="b-glutes" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-hamstring" id="b-hamstrings-r" class="region"/>
+    <use href="#s-hamstring" id="b-hamstrings" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+    <use href="#s-calf" id="b-calves-r" class="region"/>
+    <use href="#s-calf" id="b-calves" class="region" transform="matrix(-1 0 0 1 220 0)"/>
+  </g>
+</svg>
